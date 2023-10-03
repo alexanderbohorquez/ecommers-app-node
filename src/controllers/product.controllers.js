@@ -1,6 +1,7 @@
 const catchError = require('../utils/catchError');
 const Product = require('../models/Product');
 const Image = require('../models/Image');
+const { Op } = require("sequelize");
 
 let id;
 
@@ -16,7 +17,7 @@ const create = catchError(async(req, res) => {
 
 const getOne = catchError(async(req, res) => {
     const { id } = req.params;
-    const result = await Product.findByPk(id);
+    const result = await Product.findByPk(id, {include: [Image]});
     if(!result) return res.sendStatus(404);
     return res.json(result);
 });
